@@ -1,0 +1,26 @@
+{
+  "name": "g3100-helper",
+  "version": "0.1.0",
+  "description": "Facilitates programmatic interactions with the Verizon Fios G3100 Internet router",
+  "main": "index.mjs",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mikeboharsik/g3100-helper.git"
+  },
+  "author": "Mike Boharsik",
+  "license": "GPLv3",
+  "bugs": {
+    "url": "https://github.com/mikeboharsik/g3100-helper/issues"
+  },
+  "homepage": "https://github.com/mikeboharsik/g3100-helper#readme",
+  "dependencies": {
+    "puppeteer": "^24.30.0"
+  }
+}
