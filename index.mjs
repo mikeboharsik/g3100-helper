@@ -120,7 +120,7 @@ function getWrappedFunction(contentFunction) {
 
 		const page = await browser.newPage();
 		await page.setViewport({ width: 1280, height: 720 });
-		page.setDefaultTimeout(6000);
+		page.setDefaultTimeout(10000);
 
 		let result;
 		try {
