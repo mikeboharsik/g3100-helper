@@ -37,7 +37,7 @@ async function logout(page) {
 }
 
 function getEnvAppropriatePuppeteerSettings() {
-	if (['/bash', '/sh'].includes(process.env.SHELL)) {
+	if (['/bash', '/sh'].some(e => process.env.SHELL?.match(e))) {
 		return {
 			// this was necessary to get it running on RPi
 			// sudo apt install chromium-browser
