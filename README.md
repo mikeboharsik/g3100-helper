@@ -1,3 +1,6 @@
+# What
+Facilitates programmatic interactions with the Verizon Fios G3100 Internet router
+
 # Why
 I hate using the UI to access my router information and there are situations where programmatic access is desirable.
 
