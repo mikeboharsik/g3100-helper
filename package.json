@@ -1,6 +1,6 @@
 {
   "name": "g3100-helper",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Facilitates programmatic interactions with the Verizon Fios G3100 Internet router",
   "main": "index.mjs",
   "engines": {
@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/mikeboharsik/g3100-helper#readme",
   "dependencies": {
+    "dotenv": "^17.2.3",
     "puppeteer": "^24.30.0"
   }
 }

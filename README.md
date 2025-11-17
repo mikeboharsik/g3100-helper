@@ -12,7 +12,12 @@ I initially wanted to reverse-engineer how the router's client implements its au
 I understand it's kinda crazy to use a headless browser just to access some router data, but it strikes me as being the least brittle long-term solution. And if the implementation breaks, it should be a simple matter of updating some selectors.
 
 # Usage
-Set the environment variable `G3100_PASSWORD` to the password of the `admin` user of the router. Then relevant functions can be imported as follows:
+Set the environment variable `G3100_PASSWORD` to the password of the `admin` user of the router. You can do this via command line or by populating a `.env` file in the root of the importing application with something like this:
+```
+G3100_PASSWORD="SOME VALUE THAT IS MORE SECURE THAN THIS"
+```
+
+Then relevant functions can be imported as follows:
 ```
 import { getLocalIpAddresses, getPublicIpAddress } from 'g3100-helper';
 

@@ -1,4 +1,7 @@
 import puppeteer from 'puppeteer';
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ quiet: true, path: [path.resolve('.env'), path.resolve(import.meta.dirname, '../..', '.env'), path.resolve(import.meta.dirname + '/.env')] });
 
 const baseUri = 'https://myfiosgateway.com';
 const loginUri = `${baseUri}/login.cgi`;
