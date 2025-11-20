@@ -109,6 +109,34 @@ async function getPublicIpAddressContent(sysauthCookie) {
 		.then(r => getPublicIpAddressFromTextResponse(r));
 }
 
+function getRouterStatusFromTextResponse(text) {
+	text = text.trim();
+	const getValue = (text, name, transformer) => {
+		const regex = new RegExp(`["']${name}["'],( ["'].*?["'],)* ["'](.*)["']`);
+		const match = text.match(regex)[2];
+		return transformer ? transformer(match) : match;
+	};
+	return {
+		firmwareVersion: getValue(text, 'router_version'),
+		hardwareVersion: getValue(text, 'hardware_version'),
+		lanIpAddress: getValue(text, 'lan_ip'),
+		macAddress: getValue(text, 'cgi_wan_mac'),
+		model: getValue(text, 'hardware_model'),
+		publicIpV4Address: getValue(text, 'get_wan4_ip'),
+		publicIpV6Address: getValue(text, 'cgi_wan_ip6_addr'),
+		serialNumber: getValue(text, 'serial_number'),
+		uptime: getValue(text, 'uptime', e => parseInt(e)),
+		wanIpV4DnsServers: getValue(text, 'wan_ip4_dns', e => e.split(' ')),
+		wanStaticDnsServers: getValue(text, 'wan_static_dns', e => e.split('|')),
+	};
+}
+
+async function getRouterStatusContent(sysauthCookie) {
+	return await fetch(statusUri, { headers: { Cookie: `sysauth=${sysauthCookie}` }})
+		.then(r => r.text())
+		.then(r => getRouterStatusFromTextResponse(r));
+}
+
 function getWrappedFunction(contentFunction) {
 	return async function genericFunction() {
 		verifyExpectedEnvVars();
@@ -140,5 +168,6 @@ function getWrappedFunction(contentFunction) {
 	}
 }
 
-export const getPublicIpAddress = getWrappedFunction(getPublicIpAddressContent);
 export const getLocalIpAddresses = getWrappedFunction(getLocalIpAddressesContent);
+export const getPublicIpAddress = getWrappedFunction(getPublicIpAddressContent);
+export const getRouterStatus = getWrappedFunction(getRouterStatusContent);
