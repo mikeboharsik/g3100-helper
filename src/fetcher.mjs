@@ -1,0 +1,18 @@
+import { baseUri } from './consts.mjs';
+
+const dnsServerUri = `${baseUri}/cgi/cgi_dns_server.js`;
+const statusUri = `${baseUri}/cgi/cgi_status.js`;
+
+export default class Fetcher {
+	static async getLocalIpAddressesContent(sysauthCookie) {
+		return await fetch(dnsServerUri, { headers: { Cookie: `sysauth=${sysauthCookie}` }}).then(r => r.text());
+	}
+
+	static async getPublicIpAddressContent(sysauthCookie) {
+		return await this.getRouterStatusContent(sysauthCookie);
+	}
+
+	static async getRouterStatusContent (sysauthCookie) {
+		return await fetch(statusUri, { headers: { Cookie: `sysauth=${sysauthCookie}` }}).then(r => r.text());
+	}
+}

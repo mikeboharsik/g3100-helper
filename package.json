@@ -1,13 +1,14 @@
 {
   "name": "g3100-helper",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Facilitates programmatic interactions with the Verizon Fios G3100 Internet router",
   "main": "index.mjs",
   "engines": {
     "node": ">=22.0.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "husky",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "type": "module",
   "repository": {
@@ -23,5 +24,9 @@
   "dependencies": {
     "dotenv": "^17.2.3",
     "puppeteer": "^24.30.0"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "jest": "^30.2.0"
   }
 }
