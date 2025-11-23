@@ -5,9 +5,8 @@ import fs from 'fs';
 const fixture = fs.readFileSync('./test/fixtures/3.6.0.6_cgi_status.txt', 'utf8');
 
 jest.unstable_mockModule('../src/fetcher.mjs', () => ({
-	getRouterStatusContent: async () => fixture,
 	default: {
-		getRouterStatusContent: async () => fixture,
+		getRouterStatusContent: async (sysauthCookie) => { expect(sysauthCookie).toBeDefined(); return fixture },
 	},
 }));
 
