@@ -1,14 +1,7 @@
-import { expect, jest } from '@jest/globals';
+import { expect } from '@jest/globals';
 
-import fs from 'fs';
-
-const fixture = fs.readFileSync('./test/fixtures/3.6.0.6_cgi_status.txt', 'utf8');
-
-jest.unstable_mockModule('../src/fetcher.mjs', () => ({
-	default: {
-		getRouterStatusContent: async (sysauthCookie) => { expect(sysauthCookie).toBeDefined(); return fixture },
-	},
-}));
+import configureFixtures from './configureFixtures.mjs';
+configureFixtures();
 
 const { getRouterStatus } = await import('../index.mjs');
 
