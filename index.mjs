@@ -16,3 +16,4 @@ dotenv.config({
 export const getLocalIpAddresses = getWrappedFunction(async (c) => parsers.getLocalIpAddressesFromTextResponse(await Fetcher.getLocalIpAddressesContent(c)));
 export const getPublicIpAddress = getWrappedFunction(async (c) => parsers.getPublicIpAddressFromTextResponse(await Fetcher.getPublicIpAddressContent(c)));
 export const getRouterStatus = getWrappedFunction(async (c) => parsers.getRouterStatusFromTextResponse(await Fetcher.getRouterStatusContent(c)));
+export const getPortForwardRules = getWrappedFunction(async (c) => parsers.getPortForwardRulesFromTextResponse(await Fetcher.getPortForwardRulesContent(c)));

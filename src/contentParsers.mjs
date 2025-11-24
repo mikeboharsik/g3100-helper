@@ -6,7 +6,7 @@ export function getLocalIpAddressesFromTextResponse(text) {
 		let result = sorted.reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, {});
 		return result;
 	} catch (e) {
-		console.log('Failed to match against local IP addresses', text);
+		console.log('Failed to match against local IP addresses', e, text);
 	}
 }
 
@@ -14,7 +14,7 @@ export function getPublicIpAddressFromTextResponse(text) {
 	try {
 		return trimmed.match(/get_wan4_ip.*\"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\"/)[1];
 	} catch (e) {
-		console.log('Failed to match against public IP address', text);
+		console.log('Failed to match against public IP address', e, text);
 	}
 }
 
@@ -39,6 +39,29 @@ export function getRouterStatusFromTextResponse(text) {
 			wanStaticDnsServers: getValue(text, 'wan_static_dns', e => e.split('|')),
 		};
 	} catch (e) {
-		console.log('Failed to match against router status fields', text);
+		console.log('Failed to match against router status fields', e, text);
+	}
+}
+
+export function getPortForwardRulesFromTextResponse(text) {
+	try {
+		const portForwardings = JSON.parse(text.match(/"portforwardings", ({.*})/)[1]).portforwardings;
+		const portRules = JSON.parse(text.match(/"portrules", ({.*})/)[1]).portrules;
+
+		const transformed = portForwardings.map(p => {
+			p.portRule = portRules.find(r => r.id === p.port_rule_id);
+			return {
+				destinationPort: p.forward_port,
+				enabled: p.enable === 1,
+				forwardingId: p.id,
+				name: p.name,
+				portRuleId: p.port_rule_id,
+				sourcePort: parseInt(p.portRule.ports[0].dest_port),
+			};
+		});
+
+		return transformed;
+	} catch (e) {
+		console.log('Failed to match against DHCP fields', e, text);
 	}
 }
