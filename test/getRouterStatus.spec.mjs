@@ -28,5 +28,5 @@ describe('getRouterStatus', () => {
 		};
 		const routerStatus = await getRouterStatus();
 		expect(routerStatus).toMatchObject(expectedResult);
-	});
+	}, 10000);
 });

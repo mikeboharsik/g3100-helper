@@ -12,7 +12,7 @@ export function getLocalIpAddressesFromTextResponse(text) {
 
 export function getPublicIpAddressFromTextResponse(text) {
 	try {
-		return trimmed.match(/get_wan4_ip.*\"(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\"/)[1];
+		return text.match(/"get_wan4_ip", "(.+?)"/)[1];
 	} catch (e) {
 		console.log('Failed to match against public IP address', e, text);
 	}

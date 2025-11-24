@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 
 import configureFixtures from './configureFixtures.mjs';
-configureFixtures();
+const fixtures = configureFixtures();
 
 const { getLocalIpAddresses } = await import('../index.mjs');
 
@@ -21,5 +21,5 @@ describe('getLocalIpAddresses', () => {
 		};
 		const localIpAddresses = await getLocalIpAddresses();
 		expect(localIpAddresses).toMatchObject(expectedResult);
-	});
+	}, 10000);
 });

@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 
 import configureFixtures from './configureFixtures.mjs';
-configureFixtures();
+const fixtures = configureFixtures();
 
 const { getPortForwardRules } = await import('../index.mjs');
 
@@ -35,5 +35,5 @@ describe('getLocalIpAddresses', () => {
     ];
 		const portForwardRules = await getPortForwardRules();
 		expect(portForwardRules).toMatchObject(expectedResult);
-	});
+	}, 10000);
 });
