@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals';
 
 import configureFixtures from './configureFixtures.mjs';
-configureFixtures();
+const fixtures = configureFixtures();
 
 const { getRouterStatus } = await import('../index.mjs');
 
