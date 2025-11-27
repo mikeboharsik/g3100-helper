@@ -17,3 +17,23 @@ export const getLocalIpAddresses = getWrappedFunction(async (c) => parsers.getLo
 export const getPublicIpAddress = getWrappedFunction(async (c) => parsers.getPublicIpAddressFromTextResponse(await Fetcher.getPublicIpAddressContent(c)));
 export const getRouterStatus = getWrappedFunction(async (c) => parsers.getRouterStatusFromTextResponse(await Fetcher.getRouterStatusContent(c)));
 export const getPortForwardRules = getWrappedFunction(async (c) => parsers.getPortForwardRulesFromTextResponse(await Fetcher.getPortForwardRulesContent(c)));
+
+export default async function getAll() {
+	const [
+		localIpAddressess,
+		publicIpAddress,
+		routerStatus,
+		portForwardRules
+	] = await Promise.all([
+		getLocalIpAddresses(),
+		getPublicIpAddress(),
+		getRouterStatus(),
+		getPortForwardRules(),
+	]);
+	return {
+		localIpAddressess,
+		publicIpAddress,
+		routerStatus,
+		portForwardRules,
+	};
+}
