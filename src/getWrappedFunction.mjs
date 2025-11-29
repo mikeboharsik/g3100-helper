@@ -52,8 +52,9 @@ async function login(page) {
 			response.url() === loginUri && response.request().method() === 'POST',
 	);
 
-	if (loginResponse.status() !== 302) {
-		throw new Error('Failed to login');
+	const status = loginResponse.status();
+	if (status !== 302) {
+		throw new Error(`Failed to login, status [${status}], body [${await loginResponse.text()}]`);
 	}
 }
 
@@ -67,8 +68,9 @@ async function logout(page) {
 			response.url() === logoutUri && response.request().method() === 'POST',
 	);
 
-	if (logoutResponse.status() !== 302) {
-		throw new Error('Failed to logout');
+	const status = logoutResponse.status();
+	if (status !== 302) {
+		throw new Error(`Failed to logout, status [${status}], body [${await logoutResponse.text()}]`);
 	}
 }
 
@@ -83,18 +85,32 @@ export default function getWrappedFunction(contentFunction) {
 
 		const page = await browser.newPage();
 		await page.setViewport({ width: 1280, height: 720 });
-		page.setDefaultTimeout(10000);
+		page.setDefaultTimeout(8000);
 
 		let result;
 		try {
-			await login(page);
+			let tries = process.env.G3100_HELPER_MAX_RETRIES ? parseInt(process.env.G3100_HELPER_MAX_RETRIES, 10) : 3;
+			while (tries > 0 && !result) {
+				try {
+					await login(page);
 
-			const sysauthCookie = (await browser.cookies()).find(e => e.name === 'sysauth').value;
-			result = await contentFunction(sysauthCookie);
+					const sysauthCookie = (await browser.cookies()).find(e => e.name === 'sysauth').value;
+					result = await contentFunction(sysauthCookie);
+				} catch (e) {
+					console.debug('Error during content loading attempt', e);
+					if (tries <= 1) {
+						throw new Error('Failed to load content after multiple attempts', { cause: e });
+					}
+				} finally {
+					tries--;
+				}
+			}
 		} catch (e) {
 			console.error('Failed to load content', e);
 		} finally {
-			await logout(page);
+			if (result) {
+				await logout(page);
+			}
 			await browser.close();
 
 			restoreOriginalSettings(originalSettings);
