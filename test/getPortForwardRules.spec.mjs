@@ -9,6 +9,7 @@ describe('getLocalIpAddresses', () => {
 	test('contains expected properties', async () => {
 		const expectedResult = [
       {
+        destinationIpAddress: '192.168.1.166',
         destinationPort: 1234987,
         enabled: true,
         forwardingId: 11,
@@ -17,6 +18,7 @@ describe('getLocalIpAddresses', () => {
         sourcePort: 13372
       },
       {
+        destinationIpAddress: '192.168.1.163',
         destinationPort: 4444,
         enabled: true,
         forwardingId: 12,
@@ -25,6 +27,7 @@ describe('getLocalIpAddresses', () => {
         sourcePort: 13373
       },
       {
+        destinationIpAddress: '192.168.1.165',
         destinationPort: 8080,
         enabled: true,
         forwardingId: 13,
@@ -34,6 +37,6 @@ describe('getLocalIpAddresses', () => {
       }
     ];
 		const portForwardRules = await getPortForwardRules();
-		expect(portForwardRules).toMatchObject(expectedResult);
+		expect(portForwardRules).toStrictEqual(expectedResult);
 	}, 10000);
 });

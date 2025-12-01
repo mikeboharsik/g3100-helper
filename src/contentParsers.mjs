@@ -51,6 +51,7 @@ export function getPortForwardRulesFromTextResponse(text) {
 		const transformed = portForwardings.map(p => {
 			p.portRule = portRules.find(r => r.id === p.port_rule_id);
 			return {
+				destinationIpAddress: p.privateIP,
 				destinationPort: p.forward_port,
 				enabled: p.enable === 1,
 				forwardingId: p.id,
