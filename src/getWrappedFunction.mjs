@@ -106,6 +106,7 @@ export default function getWrappedFunction(contentFunction) {
 			}
 		} catch (e) {
 			console.error('Failed to load content', e);
+			throw e;
 		} finally {
 			if (result) {
 				await logout(page);
