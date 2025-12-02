@@ -1,1 +1,1 @@
-export const baseUri = 'https://myfiosgateway.com';
+export const baseUri = process.env.G3100_HELPER_ROUTER_BASE_URI || 'https://myfiosgateway.com';
