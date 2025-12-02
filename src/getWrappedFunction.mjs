@@ -97,7 +97,6 @@ export default function getWrappedFunction(contentFunction) {
 					const sysauthCookie = (await browser.cookies()).find(e => e.name === 'sysauth').value;
 					result = await contentFunction(sysauthCookie);
 				} catch (e) {
-					console.debug('Error during content loading attempt', e);
 					if (tries <= 1) {
 						throw new Error('Failed to load content after multiple attempts', { cause: e });
 					}
