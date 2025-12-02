@@ -38,6 +38,10 @@ export default function configureFixtures() {
   jest.unstable_mockModule('../src/fetcher.mjs', () => ({
     default: mockedExports,
   }));
+
+  jest.unstable_mockModule('../src/getWrappedFunction.mjs', () => ({
+    default: (contentFunction) => async(sysauthCookie = 'mocked_sysauth_cookie') => await contentFunction(sysauthCookie),
+  }));
   
   return mockedExports;
 }

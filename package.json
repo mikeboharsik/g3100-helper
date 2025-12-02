@@ -1,6 +1,6 @@
 {
   "name": "g3100-helper",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "Facilitates programmatic interactions with the Verizon Fios G3100 Internet router",
   "main": "index.mjs",
   "engines": {
