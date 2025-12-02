@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 const fixturesPath = path.resolve(__dirname, 'fixtures');
 
 const functionFixtureMap = {
-  getLocalIpAddressesContent: '3.6.0.6_cgi_dns_server.js',
+  getLocalIpAddressesContent: '3.6.0.6_cgi_owl.js',
   getPublicIpAddressContent: '3.6.0.6_cgi_status.js',
   getRouterStatusContent: '3.6.0.6_cgi_status.js',
   getPortForwardRulesContent: '3.6.0.6_cgi_firewall_port_forward.js',

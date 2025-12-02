@@ -1,10 +1,14 @@
 export function getLocalIpAddressesFromTextResponse(text) {
 	try {
-		const trimmed = text.trim();
-		let match = trimmed.match(/^.*get_dhcp_hosts.*\n/)[0].match(/\[.*\]/)[0];
-		let sorted = eval(match).toSorted(([, a], [, b]) => a > b ? 1 : a < b ? -1 : 0);
-		let result = sorted.reduce((acc, cur) => { acc[cur[0]] = cur[1]; return acc; }, {});
-		return result;
+		const match = text.match(/"known_device_list", ({.+})/)[1];
+		const knownDevices = JSON.parse(match).known_devices;
+		
+		const normalized = knownDevices.reduce((acc, { activity, hostname, ip }) => {
+			if (activity === 1) acc[hostname] = ip;
+			return acc;
+		}, {});
+		const sortedKeys = Object.keys(normalized).toSorted();
+		return sortedKeys.reduce((acc, cur) => { acc[cur] = normalized[cur]; return acc; }, {});
 	} catch (e) {
 		console.log('Failed to match against local IP addresses', e, text);
 	}

@@ -1,12 +1,13 @@
 import { baseUri } from './consts.mjs';
 
 const dnsServerUri = `${baseUri}/cgi/cgi_dns_server.js`;
-const statusUri = `${baseUri}/cgi/cgi_status.js`;
+const owlUri = `${baseUri}/cgi/cgi_owl.js`;
 const portForwardUri = `${baseUri}/cgi/cgi_firewall_port_forward.js`;
+const statusUri = `${baseUri}/cgi/cgi_status.js`;
 
 export default class Fetcher {
 	static async getLocalIpAddressesContent(sysauthCookie) {
-		return await fetch(dnsServerUri, { headers: { Cookie: `sysauth=${sysauthCookie}` }}).then(r => r.text());
+		return await fetch(owlUri, { headers: { Cookie: `sysauth=${sysauthCookie}` }}).then(r => r.text());
 	}
 
 	static async getPublicIpAddressContent(sysauthCookie) {
