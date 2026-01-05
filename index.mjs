@@ -10,7 +10,8 @@ dotenv.config({
 	path: [
 		path.resolve('.env'),
 		path.resolve(import.meta.dirname, '../..', '.env'),
-		path.resolve(import.meta.dirname + '/.env')],
+		path.resolve(import.meta.dirname + '/.env')
+	],
 });
 
 export const getLocalIpAddresses = getWrappedFunction(async (c) => parsers.getLocalIpAddressesFromTextResponse(await Fetcher.getLocalIpAddressesContent(c)));
@@ -19,17 +20,34 @@ export const getRouterStatus = getWrappedFunction(async (c) => parsers.getRouter
 export const getPortForwardRules = getWrappedFunction(async (c) => parsers.getPortForwardRulesFromTextResponse(await Fetcher.getPortForwardRulesContent(c)));
 
 export default async function getAll() {
+	const getAllContent = getWrappedFunction(async (c) => {
+		const [
+			localIpAddressess,
+			publicIpAddress,
+			routerStatus,
+			portForwardRules
+		] = await Promise.all([
+			Fetcher.getLocalIpAddressesContent(c),
+			Fetcher.getPublicIpAddressContent(c),
+			Fetcher.getRouterStatusContent(c),
+			Fetcher.getPortForwardRulesContent(c),
+		]);
+
+		return [
+			parsers.getLocalIpAddressesFromTextResponse(localIpAddressess),
+			parsers.getPublicIpAddressFromTextResponse(publicIpAddress),
+			parsers.getRouterStatusFromTextResponse(routerStatus),
+			parsers.getPortForwardRulesFromTextResponse(portForwardRules),
+		];
+	});
+
 	const [
 		localIpAddressess,
 		publicIpAddress,
 		routerStatus,
 		portForwardRules
-	] = await Promise.all([
-		getLocalIpAddresses(),
-		getPublicIpAddress(),
-		getRouterStatus(),
-		getPortForwardRules(),
-	]);
+	] = await getAllContent();
+
 	return {
 		localIpAddressess,
 		publicIpAddress,
